@@ -1,4 +1,4 @@
-import {Comment} from './comment';
+import {Comment} from './Comment';
 
 export class Dish {
     id: string;
