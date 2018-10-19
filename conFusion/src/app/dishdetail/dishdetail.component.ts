@@ -26,6 +26,7 @@ export class DishdetailComponent implements OnInit {
   next: string;
   commentForm: FormGroup;
   commentObj: Comment;
+  errMess: boolean;
 
   formErrors = {
     'author': '',
@@ -54,7 +55,10 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
     //getting Id's of all dishes
-    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishService.getDishIds().subscribe(
+      dishIds => this.dishIds = dishIds,
+      errmess => this.errMess = <any>errmess
+      );
 
     //following the changes in url params in router link (observable in router), when the change happened
     //creating a new observable, that returns us a dish, according to a change of is in params
@@ -62,7 +66,8 @@ export class DishdetailComponent implements OnInit {
       switchMap((params: Params) => this.dishService.getDish(params['id']))
       )
     .subscribe(
-      dish => { this.dish = dish; this.setPrevNext(dish.id); }
+      dish => { this.dish = dish; this.setPrevNext(dish.id); },
+      errmess => this.errMess = <any>errmess
       );
 
     this.createForm();
