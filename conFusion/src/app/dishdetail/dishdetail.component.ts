@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,7 +15,20 @@ import { Comment } from '../shared/Comment';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations: [
+    trigger('visibility', [
+        state('shown', style({
+            transform: 'scale(1.0)',
+            opacity: 1
+        })),
+        state('hidden', style({
+            transform: 'scale(0.5)',
+            opacity: 0
+        })),
+        transition('* => *', animate('0.5s ease-in-out'))
+    ])
+  ]
 })
 export class DishdetailComponent implements OnInit {
 
@@ -28,6 +42,7 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   commentObj: Comment;
   errMess: boolean;
+  visibility = 'shown';
 
   formErrors = {
     'author': '',
@@ -64,10 +79,18 @@ export class DishdetailComponent implements OnInit {
     //following the changes in url params in router link (observable in router), when the change happened
     //creating a new observable, that returns us a dish, according to a change of is in params
     this.route.params.pipe(
-      switchMap((params: Params) => this.dishService.getDish(params['id']))
-      )
+      switchMap((params: Params) => {
+        this.visibility = "hidden";
+        return this.dishService.getDish(params['id']);
+      }
+      ))
     .subscribe(
-      dish => { this.dish = dish; this.dishcopy=dish; this.setPrevNext(dish.id); },
+      dish => { 
+        this.dish = dish; 
+        this.dishcopy=dish; 
+        this.setPrevNext(dish.id);
+        this.visibility = "shown";
+       },
       errmess => this.errMess = <any>errmess
       );
 
