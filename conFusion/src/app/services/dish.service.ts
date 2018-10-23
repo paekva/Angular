@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Dish} from '../shared/Dish';
-import { DISHES } from '../shared/dishes';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Dish } from '../shared/Dish';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { baseUrl } from '../shared/baseurl';
 import { map, catchError } from 'rxjs/operators';
