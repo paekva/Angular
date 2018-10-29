@@ -66,12 +66,12 @@
           </mat-list>
       </div>
 
-      <div fxFlex [hidden]="leaders || leaderErrMsg">
+      <div fxFlex [hidden]="leaders || leadersErrMsg">
           <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
         </div>
 
-        <div fxFlex *ngIf="leaderErrMess" >
+        <div fxFlex *ngIf="leadersErrMsg" >
           <h2>Error</h2>
-          <h4>{{leaderErrMess}}</h4>
+          <h4>{{leadersErrMsg}}</h4>
         </div>
     </div>
